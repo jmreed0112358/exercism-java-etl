@@ -1,15 +1,43 @@
 import com.google.common.collect.ImmutableMap;
 import org.junit.Test;
 
+import java.security.InvalidParameterException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.Assert.fail;
 
 public class EtlTest {
     private final Etl etl = new Etl();
 
+    @Test
+    public void test_transform_EmptyInput_ThrowsException() {
+    	try {
+    		Map<Integer, List<String>> input = new HashMap< Integer, List<String>>();
+    		etl.transform( input );
+    		fail("Supposed to catch InvalidParameterException");
+    	} catch ( InvalidParameterException ipe ) {
+    		
+    	} catch ( Exception e ) {
+    		fail("Expected to catch InvalidParameterException");
+    	}
+    }
+    
+    @Test
+    public void test_transform_NullInput_ThrowsException() {
+    	try {
+    		etl.transform( null );
+    		fail("Supposed to catch NullPointerException");
+    	} catch ( NullPointerException ipe ) {
+    		
+    	} catch ( Exception e ) {
+    		fail("Expected to catch NullPointerException");
+    	}
+    }
+    
     @Test
     public void testTransformOneValue() {
         Map<Integer, List<String>> old = ImmutableMap.of(1, Arrays.asList("A"));
