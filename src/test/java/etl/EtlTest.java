@@ -1,7 +1,12 @@
+package etl;
 import com.google.common.collect.ImmutableMap;
+
+import etl.Etl;
+
 import org.junit.Test;
 
 import java.security.InvalidParameterException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +40,77 @@ public class EtlTest {
     		
     	} catch ( Exception e ) {
     		fail("Expected to catch NullPointerException");
+    	}
+    }
+    
+    @Test
+    public void test_transformInvalidInput_NullList_ThrowsException() {
+    	try {
+    		Map<Integer, List<String>> old = ImmutableMap.of(1, null);
+
+            etl.transform( old );
+            fail("Supposed to catch NullPointerException");
+    	} catch ( NullPointerException npe ) {
+    		
+    	} catch ( Exception e ) {
+    		fail("Expected to catch NullPointerException");
+    	}
+    }
+    
+    @Test
+    public void test_transformInvalidInput_EmptyList_ThrowsException() {
+    	try {
+    		List<String> empty = new ArrayList<String>();
+    		Map<Integer, List<String>> old = ImmutableMap.of(1, empty);
+
+            etl.transform( old );
+            fail("Supposed to catch InvalidParameterException");
+    	} catch ( InvalidParameterException ipe ) {
+    		
+    	} catch ( Exception e ) {
+    		fail("Expected to catch InvalidParameterException");
+    	}
+    }
+    
+    @Test
+    public void test_transformInvalidInput_NegativeKey_ValidList_ThrowsException() {
+    	try {
+    		Map<Integer, List<String>> old = ImmutableMap.of(-1, Arrays.asList("A"));
+
+            etl.transform( old );
+            fail("Supposed to catch InvalidParameterException");
+    	} catch ( InvalidParameterException ipe ) {
+    		
+    	} catch ( Exception e ) {
+    		fail("Expected to catch InvalidParameterException");
+    	}
+    }
+    
+    @Test
+    public void test_transformInvalidInput_ValidKey_LowerCaseChar_ThrowsException() {
+    	try {
+    		Map<Integer, List<String>> old = ImmutableMap.of(1, Arrays.asList("b"));
+
+            etl.transform( old );
+            fail("Supposed to catch InvalidParameterException");
+    	} catch ( InvalidParameterException ipe ) {
+    		
+    	} catch ( Exception e ) {
+    		fail("Expected to catch InvalidParameterException");
+    	}
+    }
+    
+    @Test
+    public void test_transformInvalidInput_ValidKey_StringsLongerThanOneChar_ThrowsException() {
+    	try {
+    		Map<Integer, List<String>> old = ImmutableMap.of(1, Arrays.asList("FOO"));
+
+            etl.transform( old );
+            fail("Supposed to catch InvalidParameterException");
+    	} catch ( InvalidParameterException ipe ) {
+    		
+    	} catch ( Exception e ) {
+    		fail("Expected to catch InvalidParameterException");
     	}
     }
     
